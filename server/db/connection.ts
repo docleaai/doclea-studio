@@ -69,3 +69,8 @@ export async function withRetry<T>(
 }
 
 export const db = DatabaseManager.getInstance();
+
+// Helper function for simpler access
+export function getDb(type: "local" | "vector"): InstanceType<typeof Database> {
+  return type === "local" ? db.getLocalDb() : db.getVectorDb();
+}

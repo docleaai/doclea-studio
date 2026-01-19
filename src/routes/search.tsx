@@ -44,6 +44,7 @@ function SearchPage() {
     hybridWeight,
     type: search.type,
     limit: 20,
+    useSemanticSearch: hybridWeight > 0,
   });
 
   const results = data?.results ?? [];
@@ -74,7 +75,7 @@ function SearchPage() {
         </div>
 
         {/* Hybrid weight slider */}
-        <div className="mt-4 flex items-center gap-4">
+        <div className="mt-4 flex flex-wrap items-center gap-4">
           <span className="text-sm text-text-secondary">
             Semantic weight:
           </span>
@@ -90,6 +91,11 @@ function SearchPage() {
             {(hybridWeight * 100).toFixed(0)}% semantic /{" "}
             {((1 - hybridWeight) * 100).toFixed(0)}% keyword
           </span>
+          <div className="ml-auto flex items-center gap-2">
+            <span className="text-xs text-text-muted">
+              {hybridWeight > 0 ? "Using embeddings for semantic search" : "Keyword-only search"}
+            </span>
+          </div>
         </div>
       </div>
 

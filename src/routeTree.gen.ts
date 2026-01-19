@@ -10,13 +10,21 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SearchRouteImport } from './routes/search'
+import { Route as GraphRouteImport } from './routes/graph'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as MemoriesIndexRouteImport } from './routes/memories/index'
+import { Route as CodeIndexRouteImport } from './routes/code/index'
 import { Route as MemoriesMemoryIdRouteImport } from './routes/memories/$memoryId'
+import { Route as CodeNodeRouteImport } from './routes/code/node'
 
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GraphRoute = GraphRouteImport.update({
+  id: '/graph',
+  path: '/graph',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -29,43 +37,87 @@ const MemoriesIndexRoute = MemoriesIndexRouteImport.update({
   path: '/memories/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CodeIndexRoute = CodeIndexRouteImport.update({
+  id: '/code/',
+  path: '/code/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MemoriesMemoryIdRoute = MemoriesMemoryIdRouteImport.update({
   id: '/memories/$memoryId',
   path: '/memories/$memoryId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CodeNodeRoute = CodeNodeRouteImport.update({
+  id: '/code/node',
+  path: '/code/node',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/graph': typeof GraphRoute
   '/search': typeof SearchRoute
+  '/code/node': typeof CodeNodeRoute
   '/memories/$memoryId': typeof MemoriesMemoryIdRoute
+  '/code/': typeof CodeIndexRoute
   '/memories/': typeof MemoriesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/graph': typeof GraphRoute
   '/search': typeof SearchRoute
+  '/code/node': typeof CodeNodeRoute
   '/memories/$memoryId': typeof MemoriesMemoryIdRoute
+  '/code': typeof CodeIndexRoute
   '/memories': typeof MemoriesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/graph': typeof GraphRoute
   '/search': typeof SearchRoute
+  '/code/node': typeof CodeNodeRoute
   '/memories/$memoryId': typeof MemoriesMemoryIdRoute
+  '/code/': typeof CodeIndexRoute
   '/memories/': typeof MemoriesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/search' | '/memories/$memoryId' | '/memories/'
+  fullPaths:
+    | '/'
+    | '/graph'
+    | '/search'
+    | '/code/node'
+    | '/memories/$memoryId'
+    | '/code/'
+    | '/memories/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/search' | '/memories/$memoryId' | '/memories'
-  id: '__root__' | '/' | '/search' | '/memories/$memoryId' | '/memories/'
+  to:
+    | '/'
+    | '/graph'
+    | '/search'
+    | '/code/node'
+    | '/memories/$memoryId'
+    | '/code'
+    | '/memories'
+  id:
+    | '__root__'
+    | '/'
+    | '/graph'
+    | '/search'
+    | '/code/node'
+    | '/memories/$memoryId'
+    | '/code/'
+    | '/memories/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  GraphRoute: typeof GraphRoute
   SearchRoute: typeof SearchRoute
+  CodeNodeRoute: typeof CodeNodeRoute
   MemoriesMemoryIdRoute: typeof MemoriesMemoryIdRoute
+  CodeIndexRoute: typeof CodeIndexRoute
   MemoriesIndexRoute: typeof MemoriesIndexRoute
 }
 
@@ -76,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/search'
       fullPath: '/search'
       preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/graph': {
+      id: '/graph'
+      path: '/graph'
+      fullPath: '/graph'
+      preLoaderRoute: typeof GraphRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -92,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MemoriesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/code/': {
+      id: '/code/'
+      path: '/code'
+      fullPath: '/code/'
+      preLoaderRoute: typeof CodeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/memories/$memoryId': {
       id: '/memories/$memoryId'
       path: '/memories/$memoryId'
@@ -99,13 +165,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MemoriesMemoryIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/code/node': {
+      id: '/code/node'
+      path: '/code/node'
+      fullPath: '/code/node'
+      preLoaderRoute: typeof CodeNodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  GraphRoute: GraphRoute,
   SearchRoute: SearchRoute,
+  CodeNodeRoute: CodeNodeRoute,
   MemoriesMemoryIdRoute: MemoriesMemoryIdRoute,
+  CodeIndexRoute: CodeIndexRoute,
   MemoriesIndexRoute: MemoriesIndexRoute,
 }
 export const routeTree = rootRouteImport

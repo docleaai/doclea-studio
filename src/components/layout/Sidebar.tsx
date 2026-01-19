@@ -1,11 +1,13 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, Brain, Search, Settings } from "lucide-react";
+import { LayoutDashboard, Brain, Search, Settings, Code2, Network } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
   { to: "/memories", label: "Memories", icon: Brain },
   { to: "/search", label: "Search", icon: Search },
+  { to: "/code", label: "Code Explorer", icon: Code2 },
+  { to: "/graph", label: "Graph View", icon: Network },
 ] as const;
 
 /**

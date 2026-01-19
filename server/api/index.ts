@@ -5,6 +5,9 @@ import { errorHandler } from "../middleware/error-handler";
 import memoriesApi from "./memories";
 import searchApi from "./search";
 import statsApi from "./stats";
+import embedApi from "./embed";
+import relationsApi from "./relations";
+import { codeApi } from "./code";
 
 const app = new Hono().basePath("/api/v1");
 
@@ -23,6 +26,9 @@ app.use("*", errorHandler);
 app.route("/memories", memoriesApi);
 app.route("/search", searchApi);
 app.route("/stats", statsApi);
+app.route("/embed", embedApi);
+app.route("/relations", relationsApi);
+app.route("/code", codeApi);
 
 // Health check
 app.get("/health", (c) => c.json({ status: "ok" }));

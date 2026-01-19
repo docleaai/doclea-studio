@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { searchMemories, findSimilar } from "./api";
+import { searchMemories, searchWithEmbedding, findSimilar } from "./api";
 import type { SearchParams } from "./types";
 
 export const searchKeys = {
@@ -8,10 +8,15 @@ export const searchKeys = {
   similar: (memoryId: string) => [...searchKeys.all, "similar", memoryId] as const,
 };
 
-export function useSearch(params: SearchParams) {
+export function useSearch(params: SearchParams & { useSemanticSearch?: boolean }) {
+  const { useSemanticSearch = true, ...searchParams } = params;
+
   return useQuery({
     queryKey: searchKeys.query(params),
-    queryFn: () => searchMemories(params),
+    queryFn: () =>
+      useSemanticSearch
+        ? searchWithEmbedding(searchParams)
+        : searchMemories(searchParams),
     enabled: params.query.length > 0,
     staleTime: 1000 * 60, // 1 minute
   });
